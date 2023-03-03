@@ -45,7 +45,7 @@ public class EmailService {
 
             //Only send an attachment if it's attached
             if(attachment != null){
-                helper.addAttachment("report_"+fileName, file);
+                helper.addAttachment(fileName, file);
             }
 
             mailSender.send(mimeMessage);

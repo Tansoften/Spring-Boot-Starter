@@ -11,9 +11,36 @@ public class CreateFile {
     private String fileName;
     public String getFileName(){return fileName;}
 
+    private void changeFileName(String name){
+        fileName = name.replace(' ', '_')
+                .replace('-','_')
+                .replace('/', '_');
+        long timeStamp = System.currentTimeMillis();
+        String []parts = fileName.split("\\.");
+
+        int partNo = parts.length;
+        //There is a single dot then start merging timestamp
+        if(partNo == 2){
+            fileName = parts[0]+"_"+timeStamp+"."+parts[1];
+        }else if(partNo > 2){
+            //If we have more parts, then we handle differently
+            fileName = "";
+            StringBuilder stringBuilder = new StringBuilder(fileName);
+            for(int index = 0; index < partNo; ++index){
+
+                if(index == (partNo-1)){
+                    stringBuilder.append("_").append(timeStamp).append(".").append(parts[index]);
+                }else{
+                    //When preceding parts show up do concatenation
+                    stringBuilder.append(parts[index]);
+                }
+            }
+            fileName = stringBuilder.toString();
+        }
+    }
+
     public String generateAttachment(FileRecords records) throws IOException {
-        String randomId = UUID.randomUUID().toString();
-        fileName = randomId+".csv";
+        changeFileName(records.getFileName());
         String path = "attachments/"+fileName;
         File file = new File(path);
         FileWriter writer = new FileWriter(file);

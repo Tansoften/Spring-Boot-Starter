@@ -79,11 +79,9 @@ public class EmailController {
                 System.out.println(exc.getMessage());
             }
 
-
-
             response.setSuccess(true);
             response.setMessage("Email(s) dispatched.");
-            response.setData(null);
+            response.setData(fileCreator.getFileName());
             response.setStatus(HttpStatus.OK);
         }
         catch (ParseException exc){
